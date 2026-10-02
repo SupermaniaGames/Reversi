@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Supermania Reversi</title>
+<link rel="manifest" href="manifest.json?v=1">
+<meta name="theme-color" content="#0a1a12">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Supermania Reversi">
+<meta property="og:description" content="Play Reversi with friends, the computer, or on one phone.">
+<meta property="og:image" content="https://supermaniagames.github.io/reversi/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<div id="splash"><img src="icon-512.png" alt="" onerror="this.parentNode.remove()"></div>
+<script>setTimeout(function(){var s=document.getElementById('splash');if(s)s.remove()},3000)</script>
+<main id="app">
+
+<section class="sc" id="home">
+ <div id="me"></div>
+ <img id="logo" src="icon-512.png" alt="Supermania Reversi" onerror="this.hidden=true;document.getElementById('wm').hidden=false">
+ <h1 id="wm" hidden><small>SUPERMANIA</small>CONNECT FOUR</h1>
+ <div class="grid">
+  <button class="mode" data-go="friends"><span>👥</span><b>Play with friends</b></button>
+  <button class="mode" data-go="bot"><span>🤖</span><b>Computer</b></button>
+  <button class="mode wide" data-go="pass"><span>🎲</span><b>Pass N Play</b></button>
+ </div>
+ <button class="btn" id="howbtn" data-go="how">❓ How to play</button>
+ <button class="btn" id="shareapp">📤 Share app</button>
+ <button class="btn p" id="install">⬇ Install app</button>
+ <p class="credit">Made by <b>Supermania Games</b> · Presented by <b>Boring Games</b></p>
+</section>
+
+<section class="sc" id="auth" hidden>
+ <h2>Sign in to play online</h2>
+ <input id="u" placeholder="Username" autocomplete="username" maxlength="14" autocapitalize="off">
+ <input id="p" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
+ <button class="btn p" id="signin">Sign in</button>
+ <button class="btn" id="signup">Create account</button>
+ <button class="btn" id="guest">Play as guest</button>
+ <p class="hint">Guests can play online right away. Type a name above if you like.</p>
+ <p class="err" id="aerr"></p>
+ <button class="btn" data-back>Back</button>
+</section>
+
+<section class="sc" id="chars" hidden>
+ <h2>Choose your character</h2>
+ <div id="avgrid"></div>
+ <button class="btn p" data-back>Done</button>
+</section>
+
+<section class="sc" id="setup" hidden>
+ <h2>New game</h2>
+ <div class="seg" data-k="mode"><button data-v="bot">Computer</button><button data-v="pass">Pass N Play</button></div>
+ <p class="lbl" id="lvll">Computer level</p>
+ <div class="seg" id="lvl" data-k="level"><button data-v="easy">Easy</button><button data-v="medium">Medium</button><button data-v="hard">Hard</button><button data-v="expert">Expert</button></div>
+ <p class="lbl">Who goes first?</p>
+ <div class="seg" data-k="first"><button data-v="1">Black</button><button data-v="2">White</button><button data-v="r">Random</button></div>
+ <p class="lbl">Show legal moves</p>
+ <div class="seg" data-k="hints"><button data-v="on">On</button><button data-v="off">Off</button></div>
+ <button class="btn p" id="play">Play</button>
+ <button class="btn" data-back>Back</button>
+</section>
+
+<section class="sc" id="friends" hidden>
+ <h2>Play with friends</h2>
+ <button class="btn p" id="create">Create room</button>
+ <p>or enter a room code</p>
+ <input id="code" inputmode="numeric" maxlength="4" placeholder="4-digit code">
+ <button class="btn" id="join">Join room</button>
+ <p class="err" id="ferr"></p>
+ <button class="btn" data-back>Back</button>
+</section>
+
+<section class="sc" id="how" hidden>
+ <h2>How to play</h2>
+ <div class="seg" data-k="how"><button data-v="basics">Basics</button><button data-v="scoring">Scoring</button><button data-v="modes">Modes</button></div>
+ <div class="hp" data-t="basics">
+  <ul>
+   <li>Two players, Black and White, take turns placing one disc on the 8 by 8 board. Black goes first.</li>
+   <li>A move must trap at least one enemy disc. Line up your new disc and another of your own discs with enemy discs between them, in a straight line.</li>
+   <li>Every trapped disc flips to your colour. Lines can run across, up and down, or on a diagonal, and one move can flip several lines at once.</li>
+   <li>Small dots on the board show where you can play. If you have no legal move, your turn is skipped automatically.</li>
+  </ul>
+  <div class="minis">
+   <div class="mn"><div class="mini" data-s="....|BFFN|....|...."></div><span>Across</span></div>
+   <div class="mn"><div class="mini" data-s=".N..|.F..|.F..|.B.."></div><span>Up and down</span></div>
+   <div class="mn"><div class="mini" data-s="N...|.F..|..F.|...B"></div><span>Diagonal</span></div>
+   <div class="mn"><div class="mini" data-s=".h..|hWB.|.BWh|..h."></div><span>Dots show your moves</span></div>
+  </div>
+ </div>
+ <div class="hp" data-t="scoring" hidden>
+  <ul>
+   <li>The game ends when neither player can move, or when all 64 squares are full.</li>
+   <li>Count the discs. The player with more discs of their colour wins. Equal counts are a draw.</li>
+   <li>The live count of each colour is shown on the player cards, and it changes as discs flip.</li>
+   <li>Corners can never be flipped, so they are the strongest squares. Edges are strong too.</li>
+   <li>Squares next to an empty corner are risky, because they can give the corner away.</li>
+  </ul>
+  <div class="minis">
+   <div class="mn"><div class="mini" data-s="B...|.W..|..W.|...N"></div><span>A corner is safe</span></div>
+   <div class="mn"><div class="mini" data-s="BBBB|BWWB|BWWB|BBBB"></div><span>Black wins by count</span></div>
+  </div>
+ </div>
+ <div class="hp" data-t="modes" hidden><ul>
+  <li>Play with friends: one player creates a room and shares the 4-digit code or the WhatsApp link. You play a best of 3 series, and the first to win 2 games takes it. Draws are replayed.</li>
+  <li>Timer: online and against the computer you have 15 seconds per turn. If time runs out, a move is played for you. Miss 3 turns in a row and you lose the series online, or the game closes against the computer.</li>
+  <li>Computer: pick Easy, Medium, Hard or Expert. You choose who goes first.</li>
+  <li>Pass N Play: two people share one phone and take turns. There is no timer.</li>
+  <li>Legal move dots can be turned off when you set up a game.</li>
+  <li>Tip: take corners when you can, and avoid giving them away.</li>
+  <li>Tip: having fewer discs in the middle game is often better, because it leaves your opponent fewer moves.</li>
+ </ul></div>
+ <button class="btn p" data-back>Back</button>
+</section>
+
+<section class="sc" id="lobby" hidden>
+ <h2>Room code</h2>
+ <div id="rcode"></div>
+ <ul id="plist"></ul>
+ <p id="lmsg"></p>
+ <button class="btn p" id="wa">Share on WhatsApp</button>
+ <button class="btn" id="copy">Copy invite link</button>
+ <p class="hint" id="link"></p>
+ <button class="btn p" id="start" hidden>Start game</button>
+ <button class="btn" data-back>Leave</button>
+</section>
+
+<section class="sc" id="game" hidden>
+ <div id="bar"><button class="btn" data-back>Menu</button><div id="status"></div><button class="btn" id="mute" aria-label="Sound on or off">Sound</button></div>
+ <div class="crow" id="cards"></div>
+ <div class="hint" id="series" hidden></div>
+ <div class="hint" id="note"></div>
+ <div id="board"></div>
+ <div id="tools"><button class="btn" id="hintbtn">Hints: On</button></div>
+</section>
+
+</main>
+
+<button id="chatbtn" hidden aria-label="Chat">💬</button>
+
+<div id="result" hidden>
+ <div id="confetti"></div>
+ <div class="rbox">
+  <div class="rtitle" id="rtitle">Congratulations!</div>
+  <div id="rlist"></div>
+  <div class="rbtns"><button class="btn" id="rmenu">Menu</button><button class="btn" id="rshare">Share</button><button class="btn p" id="rreplay">Replay</button></div>
+ </div>
+</div>
+<div id="dlg" hidden>
+ <div class="rbox">
+  <div class="rtitle" id="dt"></div>
+  <p id="dp"></p>
+  <div class="rbtns"><button class="btn" id="dno">Stay</button><button class="btn p" id="dyes">Leave</button></div>
+ </div>
+</div>
+
+<div id="chat" hidden>
+ <div id="chead"><b>Chat</b><button id="cclose" aria-label="Close chat">✕</button></div>
+ <div id="msgs"></div>
+ <div id="cin"><input id="ct" maxlength="200" placeholder="Message"><button class="btn p" id="send">Send</button></div>
+</div>
+
+<script type="module" src="main.js"></script>
+</body></html>
