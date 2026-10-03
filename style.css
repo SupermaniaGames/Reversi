@@ -14,6 +14,7 @@ p{text-align:center}
 .lbl{font-weight:800;font-size:.9rem;opacity:.9;margin-bottom:-6px}
 .hint{font-size:.85rem;opacity:.9;overflow-wrap:anywhere}
 .credit{font-size:.85rem;opacity:.9}
+.credit img{height:26px;width:auto;vertical-align:middle;margin:0 2px}
 .err{color:#ffd0d0;font-weight:800;min-height:1.2em}
 
 /* home */
@@ -186,7 +187,8 @@ input{font:inherit;font-weight:700;width:100%;padding:12px;border-radius:12px;bo
 #series,#note{width:var(--bw);text-align:center}
 #note{min-height:1.3em;font-weight:800;color:var(--gold)}
 .pc{position:relative}
-.pc[data-t]::after{content:attr(data-t);position:absolute;top:-12px;left:50%;transform:translateX(-50%);min-width:28px;height:26px;padding:0 6px;border-radius:13px;background:#ffd54a;color:#0c2a1a;font-weight:900;display:grid;place-items:center;font-size:.85rem;border:2px solid #fff;z-index:4}
+.pc.r[data-t]::after{right:auto;left:8px}
+.pc[data-t]::after{content:attr(data-t);position:absolute;top:-15px;right:8px;min-width:28px;height:26px;padding:0 6px;border-radius:13px;background:#ffd54a;color:#0c2a1a;font-weight:900;display:grid;place-items:center;font-size:.85rem;border:2px solid #fff;z-index:4}
 .pc[data-t="3"]::after,.pc[data-t="2"]::after,.pc[data-t="1"]::after,.pc[data-t="0"]::after{background:#ff4a4a;color:#fff}
 #chatbtn{position:fixed;right:14px;bottom:calc(env(safe-area-inset-bottom) + 14px);width:54px;height:54px;border-radius:50%;border:3px solid var(--gold);background:#0d3f26;font-size:1.6rem;z-index:20;cursor:pointer}
 #chatbtn.new::after{content:'';position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:#ff4a4a;border:2px solid #fff}

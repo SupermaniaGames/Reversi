@@ -34,7 +34,7 @@ export const logout=()=>signOut(auth);
 // status: 'lobby' | 'play' | 'done' (game over, next game coming) | 'series' (best-of-3 over) | 'closed'
 // b: 64 numbers (0 empty, 1 or 2 = seat; index = row*8+col, row 0 = top), turn (seat), moves, lm (last move square, -1 none)
 // game (1-3), gid (changes every started game), starter, s1/s2 game wins, idle1/idle2 missed turns in a row,
-// rm1/rm2 rematch votes, sw (series winner seat), why ('win'|'forfeit'|'left'), gone (seat that left), done (1 = game finished), pass (seat that had to pass, else 0)
+// rm1/rm2 rematch votes, sw (series winner seat), why ('win'|'forfeit'|'left'), gone (seat that left), pass (seat that had to pass, else 0)
 export async function createRoom(av){
   const u=me();
   for(let n=0;n<10;n++){
@@ -44,7 +44,7 @@ export async function createRoom(av){
         const s=await tx.get(R(code));
         if(s.exists()&&Date.now()-s.data().created<6*36e5)throw 'taken';
         tx.set(R(code),{host:u.uid,status:'lobby',created:Date.now(),players:[{uid:u.uid,name:u.name,av:av||'🙂'}],
-          b:Array(64).fill(0),turn:1,moves:0,lm:-1,game:1,gid:0,starter:1,s1:0,s2:0,idle1:0,idle2:0,rm1:false,rm2:false,sw:0,why:'',gone:0,done:0,pass:0});
+          b:Array(64).fill(0),turn:1,moves:0,lm:-1,game:1,gid:0,starter:1,s1:0,s2:0,idle1:0,idle2:0,rm1:false,rm2:false,sw:0,why:'',gone:0,pass:0});
       });
       return code;
     }catch(e){if(e!=='taken')throw e}
